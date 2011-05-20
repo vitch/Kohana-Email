@@ -5,7 +5,7 @@
  * @uses       Swiftmailer (v4.1)
  * @package    Core
  * @author     Kohana Team
- * @auth       Lieuwe Jan Eilander
+ * @author     Lieuwe Jan Eilander
  * @copyright  (c) 2007-2010 Kohana Team
  * @license    http://kohanaphp.com/license.html
  */
@@ -43,8 +43,8 @@ class Email_Core {
         }
 
         // Do authentication, if part of the DSN
-        empty($config['options']['username']) or $transport->setUsername($config['options']['username']);
-        empty($config['options']['password']) or $transport->setPassword($config['options']['password']);
+        empty($config['options']['username']) OR $transport->setUsername($config['options']['username']);
+        empty($config['options']['password']) OR $transport->setPassword($config['options']['password']);
 
         // Set the timeout to 5 seconds
         $transport->setTimeout(empty($config['options']['timeout']) ? 5 : (int) $config['options']['timeout']);
@@ -60,7 +60,7 @@ class Email_Core {
     }
 
     // Create the SwiftMailer instance
-    return self::$mail = Swift_Mailer::newInstance($transport);
+    return self::$_mail = Swift_Mailer::newInstance($transport);
   }
 
   /**
@@ -76,7 +76,7 @@ class Email_Core {
   public static function send($to, $from, $subject, $message, $html = FALSE)
   {
     // Connect to SwiftMailer
-    (Email::$mail === NULL) and email::connect();
+    (self::$_mail === NULL) AND self::connect();
 
     // Determine the message type
     $html = ($html === TRUE) ? 'text/html' : 'text/plain';
@@ -99,7 +99,7 @@ class Email_Core {
 
       foreach ($to as $method => $set)
       {
-        if ( ! in_array($method, array('to', 'cc', 'bcc'), true))
+        if ( ! in_array($method, array('to', 'cc', 'bcc'), TRUE))
         {
           // Use To: by default
           $method = 'to';
@@ -132,7 +132,7 @@ class Email_Core {
       $message->setFrom($from[0], $from[1]);
     }
 
-    return Email::$mail->send($message);
+    return Email::$_mail->send($message);
   }
 
 } // End email
