@@ -55,7 +55,7 @@ class Email_Core {
       break;
       default:
         // Use the native connection
-        $transport = Swift_MailTransport::newInstance($config['options']);
+        $transport = Swift_MailTransport::newInstance();
       break;
     }
 
@@ -73,7 +73,7 @@ class Email_Core {
    * @param   boolean       Send email as HTML
    * @return  integer       Number of emails sent
    */
-  public static function send($to, $from, $subject, $message, $html = FALSE)
+  public static function send($to, $from, $subject, $body, $html = FALSE)
   {
     // Connect to SwiftMailer
     (self::$_mail === NULL) AND self::connect();
@@ -82,7 +82,7 @@ class Email_Core {
     $html = ($html === TRUE) ? 'text/html' : 'text/plain';
 
     // Create the message
-    $message = Swift_Message::newInstance($subject, $message, $html, 'utf-8');
+    $message = Swift_Message::newInstance($subject, $body, $html, 'utf-8');
 
     if (is_string($to))
     {
@@ -132,7 +132,7 @@ class Email_Core {
       $message->setFrom($from[0], $from[1]);
     }
 
-    return Email::$_mail->send($message);
+    return self::$_mail->send($message);
   }
 
 } // End email
