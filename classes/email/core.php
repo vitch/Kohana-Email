@@ -72,6 +72,7 @@ class Email_Core {
    * @param   string        Message body
    * @param   boolean       Send email as HTML
    * @return  integer       Number of emails sent
+   * @throws  Http_Exception_408  If connecting to the mailserver is timed-out
    */
   public static function send($to, $from, $subject, $body, $html = FALSE)
   {
@@ -132,7 +133,15 @@ class Email_Core {
       $message->setFrom($from[0], $from[1]);
     }
 
-    return self::$_mail->send($message);
+    try
+    {
+      self::$_mail->send($message);
+    }
+    catch (Swift_SwiftException $e)
+    {
+      // Throw Kohana Http Exception
+      throw new Http_Exception_408('Connecting to mailserver timed out: :message', array(':message', $e->getMessage()));
+    }
   }
 
 } // End email
