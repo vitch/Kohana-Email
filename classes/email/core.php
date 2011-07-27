@@ -25,7 +25,7 @@ class Email_Core {
   public static function connect($config = NULL)
   {
     // Load default configuration
-    ($config === NULL) AND $config = Kohana::config('email');
+    ($config === NULL) AND $config = Kohana::$config->load('email');
 
     switch ($config['driver'])
     {
