@@ -135,7 +135,7 @@ class Email_Core {
 
     try
     {
-      self::$_mail->send($message);
+      return self::$_mail->send($message);
     }
     catch (Swift_SwiftException $e)
     {
