@@ -2,7 +2,7 @@
 /**
  * Kohana Email abstraction module for Swiftmailer
  *
- * @uses       Swiftmailer (v4.1)
+ * @uses       Swiftmailer (v4.2.1)
  * @package    Core
  * @author     Kohana Team
  * @author     Lieuwe Jan Eilander
