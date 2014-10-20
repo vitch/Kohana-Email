@@ -25,7 +25,7 @@ class Email_Core {
   public static function connect($config = NULL)
   {
     // Load default configuration
-    ($config === NULL) AND $config = Kohana::$config->load('email');
+    ($config === NULL) AND $config = Kohana::config('email');
 
     switch ($config['driver'])
     {
@@ -139,8 +139,8 @@ class Email_Core {
     }
     catch (Swift_SwiftException $e)
     {
-      // Throw Kohana Http Exception
-      throw new Http_Exception_408('Connecting to mailserver timed out: :message', array(
+      // Throw Kohana Exception
+      throw new Kohana_Exception('Connecting to mailserver timed out: :message', array(
         ':message' => $e->getMessage()
       ));
     }
