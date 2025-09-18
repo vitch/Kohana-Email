@@ -53,6 +53,15 @@ class Email_Core {
         // Create a sendmail connection
         $transport = Swift_SendmailTransport::newInstance(empty($config['options']) ? "/usr/sbin/sendmail -bs" : $config['options']);
       break;
+      case 'mailgun':
+        // Create a Mailgun API transport
+        $options = $config['options'];
+        $transport = new Swift_MailgunTransport(
+          $options['api_key'], 
+          $options['domain'], 
+          $options['api_url']
+        );
+      break;
       default:
         // Use the native connection
         $transport = Swift_MailTransport::newInstance();
